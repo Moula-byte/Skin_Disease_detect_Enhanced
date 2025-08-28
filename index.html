@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Skin Disease Detector</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #e0f7fa, #fce4ec);
+            color: #333;
+            text-align: center;
+            padding: 30px;
+        }
+        input, select, button {
+            margin: 10px;
+            padding: 10px;
+            width: 260px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        img {
+            margin: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+        .section {
+            margin-top: 30px;
+            background-color: #ffffffcc;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h2>🩺 Skin Disease Diagnostic App</h2>
+
+    {% if error %}
+        <p style="color: red; font-weight: bold;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" id="imageInput" accept="image/*" required><br>
+        <div id="previewContainer" style="display:none;">
+            <h4>Image Preview</h4>
+            <img id="previewImage" src="#" alt="Preview" width="300">
+        </div>
+        <input type="text" name="name" placeholder="Patient Name" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" required><br>
+        <input type="number" name="age" placeholder="Patient Age" min="1" max="120" required><br>
+        <input type="text" name="location" placeholder="Lesion Location"><br>
+        <select name="dataset" required>
+            <option value="">-- Select HMNIST Dataset --</option>
+            <option value="hmnist_8_8_L">HMNIST 8x8 Grayscale</option>
+            <option value="hmnist_8_8_RGB">HMNIST 8x8 RGB</option>
+            <option value="hmnist_28_28_L">HMNIST 28x28 Grayscale</option>
+            <option value="hmnist_28_28_RGB">HMNIST 28x28 RGB</option>
+        </select><br>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+        <div class="section">
+            <h3>Prediction: {{ prediction }}</h3>
+            <p><strong>Name:</strong> {{ name }} &nbsp; | &nbsp; <strong>Age:</strong> {{ age }} &nbsp; | &nbsp; <strong>Location:</strong> {{ location }}</p>
+        </div>
+        <div class="section">
+            <h4>Original Image</h4>
+            <img src="{{ image_path }}" width="300">
+        </div>
+        <div class="section">
+            <h4>Grad-CAM Visualization</h4>
+            <img src="{{ gradcam_path }}" width="300"><br>
+            <a href="{{ gradcam_path }}" download>Download Grad-CAM</a>
+        </div>
+    {% endif %}
+
+    {% if sample_path %}
+        <div class="section">
+            <h4>Sample from {{ selected_dataset }}</h4>
+            <img src="{{ sample_path }}" width="200">
+        </div>
+    {% endif %}
+
+    <script>
+        document.getElementById("imageInput").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("previewImage").src = e.target.result;
+                    document.getElementById("previewContainer").style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
