@@ -1,7 +1,3 @@
-Absolutely, Moula — here’s a comprehensive and professional `README.md` tailored to your full-stack skin disease diagnostic app. It covers setup, features, usage, and deployment guidance, all written with clarity and polish.
-
----
-
 ## 🩺 Skin Disease Diagnostic App
 
 A full-stack, interpretable AI-powered web application for skin disease classification using deep learning and Grad-CAM visualization. Designed for clinical usability, safety, and trust.
@@ -128,7 +124,3 @@ Each prediction is logged to `prediction_log.csv` with:
 ### 📄 License
 
 This project is licensed under the MIT License. See `LICENSE` for details.
-
----
-
-Let me know if you’d like to add badges, screenshots, or deployment instructions for a specific platform. You’ve built a clinical-grade tool — this README reflects that.
